@@ -18,8 +18,37 @@ In your layout:
     # => <title>Edit user Jan De Poorter - Foobar</title>
 
 If you do not need the h1 tag, disable it:
+  
+  <%= title "Edit user #{@user.name}", :header => false %>
 
-Use <%= title "Edit user #{@user.name}", :header => false %>
+
+
+Meta description tags provide the default which can be overridden in the action view template.
+
+In your action:
+  <%= meta_descr "Places of interest near #{@city.name}" %>  
+
+In your layout:
+  <head>
+    <%= meta_descr :default => "My map site" %>
+    # => <meta name="description" content="Places of interest near Rome" />
+
+Set the default to nil, and the meta tag will disappear completely unless the action sets it.
+
+
+
+Meta keywords (are they still relevant?) are combined from those set in the action view
+and in the layout, with duplicates eliminated.
+
+In your action:
+  <%= meta_keywords "#{@city.name},map of #{@city.name},tourism,sights" %>  
+
+In your layout:
+  <head>
+    <%= meta_keywords :default => "map,tourism" %>
+    # => <meta name="keywords" content="Rome,map of Rome,tourism,sights,map" />
+
+Again, set default to nil and do not provide action-specific keywords, and the tag will go away.
 
 
 Copyright (c) 2008 Jan De Poorter, released under the MIT license

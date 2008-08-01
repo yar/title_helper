@@ -52,5 +52,62 @@ class TitleHelperTest < Test::Unit::TestCase
     assert_nil @helper.title("HomePage", :header => false)
     assert_equal "HomePage - foobar", @helper.title(:site_name => 'foobar', :header => false)
   end
+  
+  # Meta descriptions
+  
+  def test_meta_descr_method_with_no_descr_set
+    assert_equal '<meta name="description" content="default description" />', 
+      @helper.meta_descr(:default => "default description")
+  end
 
+  def test_meta_descr_method_with_a_descr_set
+    assert_nil @helper.meta_descr("specific description")
+    assert_equal '<meta name="description" content="specific description" />', 
+      @helper.meta_descr(:default => "default description")
+  end
+  
+  def test_meta_descr_nothing_in_nothing_out
+    assert_nil @helper.meta_descr(:default => nil)
+  end
+  
+  def test_meta_descr_method_with_a_descr_set_and_no_default
+    assert_nil @helper.meta_descr("specific description")
+    assert_equal '<meta name="description" content="specific description" />', 
+      @helper.meta_descr(:default => nil)
+  end
+
+  # Meta keywords
+  
+  def test_meta_keywords_method_with_no_keywords_set
+    assert_equal '<meta name="keywords" content="phrase one,phrase two" />', 
+      @helper.meta_keywords(:default => "phrase one,phrase two")
+  end
+
+  def test_meta_keywords_method_with_keyword
+    assert_nil @helper.meta_keywords("phrase three")
+    assert_equal '<meta name="keywords" content="phrase three,phrase one,phrase two" />', 
+      @helper.meta_keywords(:default => "phrase one,phrase two")
+  end
+
+  def test_meta_keywords_method_with_keywords
+    assert_nil @helper.meta_keywords("phrase one,phrase three")
+    assert_equal '<meta name="keywords" content="phrase one,phrase three,phrase two" />', 
+      @helper.meta_keywords(:default => "phrase one,phrase two")
+  end
+
+  def test_meta_keywords_method_stripping_whitespace
+    assert_nil @helper.meta_keywords("phrase one, phrase three")
+    assert_equal '<meta name="keywords" content="phrase one,phrase three,phrase two" />', 
+      @helper.meta_keywords(:default => "phrase one, phrase two")
+  end
+
+  def test_meta_keywords_method_nothing_in_nothing_out
+    assert_nil @helper.meta_keywords(:default => nil)
+  end
+
+  def test_meta_keywords_method_with_keywords_and_no_default
+    assert_nil @helper.meta_keywords("phrase one,phrase three")
+    assert_equal '<meta name="keywords" content="phrase one,phrase three" />', 
+      @helper.meta_keywords(:default => nil)
+  end
 end

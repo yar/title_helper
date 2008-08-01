@@ -30,5 +30,42 @@ module DefV
         end
       end
     end
+
+    def meta_descr arguments, options = {}
+      case arguments
+      when String
+        @meta_descr = arguments
+        return nil
+      when Hash
+        default = arguments[:default]
+        if @meta_descr
+          descr = @meta_descr
+        else
+          descr = default
+        end
+        return %Q{<meta name="description" content="#{descr}" />} if descr
+      end
+    end
+
+    def meta_keywords arguments
+      case arguments
+      when String
+        @meta_keywords ||= []
+        @meta_keywords += arguments.split(",").map { |part| part.strip }
+        return nil
+      when Hash
+        default_keywords = []
+        unless arguments[:default].blank?
+          default_keywords = arguments[:default].split(",").map { |part| part.strip }
+        end
+        
+        if @meta_keywords && @meta_keywords.size > 0
+          keywords = @meta_keywords + default_keywords
+        else
+          keywords = default_keywords
+        end
+        return %Q{<meta name="keywords" content="#{keywords.uniq.join(",")}" />} if keywords.size > 0
+      end
+    end
   end
 end
