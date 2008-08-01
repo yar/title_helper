@@ -18,7 +18,9 @@ module DefV
       when String
         @title = arguments
         options[:class] = [options[:class], 'error'].compact.join(' ') if options[:error]
-        return content_tag(:h1, [options[:header], @title, options[:trailer]].compact.join(' '), options.except(:error, :header, :trailer))
+        unless options[:header] == false
+          return content_tag(:h1, [options[:header], @title, options[:trailer]].compact.join(' '), options.except(:error, :header, :trailer))
+        end
       when Hash
         sitename = arguments[:site_name]
         if @title

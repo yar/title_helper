@@ -17,4 +17,9 @@ In your layout:
     <title><%= title :site_name => 'Foobar' %></title>
     # => <title>Edit user Jan De Poorter - Foobar</title>
 
+If you do not need the h1 tag, disable it:
+
+Use <%= title "Edit user #{@user.name}", :header => false %>
+
+
 Copyright (c) 2008 Jan De Poorter, released under the MIT license

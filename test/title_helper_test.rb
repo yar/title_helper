@@ -8,7 +8,6 @@ class TitleHelperTest < Test::Unit::TestCase
     @helper = ActionView::Base.new
   end
   
-  # Replace this with your real tests.
   def test_title_method_with_no_title_set
     assert_equal "foobar", @helper.title(:site_name => 'foobar')
   end
@@ -42,4 +41,16 @@ class TitleHelperTest < Test::Unit::TestCase
   def test_class_and_error_on_h1
     assert_equal "<h1 class=\"my-class error\">Header with error and class</h1>", @helper.title("Header with error and class", :class => 'my-class', :error => true)
   end
+  
+  # And if we do not need a matching h1 tag...
+
+  def test_title_method_with_no_title_set_without_header
+    assert_equal "foobar", @helper.title(:site_name => 'foobar', :header => false)
+  end
+ 
+  def test_title_method_with_a_title_set_without_header
+    assert_nil @helper.title("HomePage", :header => false)
+    assert_equal "HomePage - foobar", @helper.title(:site_name => 'foobar', :header => false)
+  end
+
 end
