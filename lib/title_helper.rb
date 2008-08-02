@@ -23,10 +23,11 @@ module DefV
         end
       when Hash
         sitename = arguments[:site_name]
+        default = arguments[:default]
         if @title
           return "#{strip_tags(@title)} - #{sitename}"
         else
-          return "#{sitename}"
+          return "#{default || sitename}"
         end
       end
     end

@@ -12,11 +12,20 @@ class TitleHelperTest < Test::Unit::TestCase
     assert_equal "foobar", @helper.title(:site_name => 'foobar')
   end
    
+  def test_title_method_with_no_title_set_and_default
+    assert_equal "foobar industries", @helper.title(:site_name => 'foobar', :default => "foobar industries")
+  end
+
   def test_title_method_with_a_title_set
     assert_equal "<h1>HomePage</h1>", @helper.title("HomePage")
     assert_equal "HomePage - foobar", @helper.title(:site_name => 'foobar')
   end
   
+  def test_title_method_with_a_title_set_and_default
+    assert_equal "<h1>HomePage</h1>", @helper.title("HomePage")
+    assert_equal "HomePage - foobar", @helper.title(:site_name => 'foobar', :default => "foobar industries")
+  end
+
   def test_strip_tags
     assert_equal "<h1>This is <strong>GREAT</strong></h1>", @helper.title("This is <strong>GREAT</strong>")
     assert_equal "This is GREAT - foobar", @helper.title(:site_name => 'foobar')
