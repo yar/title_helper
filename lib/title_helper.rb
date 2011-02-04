@@ -61,7 +61,7 @@ module DefV
         end
         
         if @meta_keywords && @meta_keywords.size > 0
-          keywords = @meta_keywords + default_keywords
+          keywords = @meta_keywords# + default_keywords
         else
           keywords = default_keywords
         end
