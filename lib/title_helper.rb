@@ -25,7 +25,9 @@ module DefV
         sitename = arguments[:site_name]
         default = arguments[:default]
         if @title
-          return "#{strip_tags(@title.gsub("&ndash;", "-"))} - #{sitename}"
+          result = "#{strip_tags(@title.gsub("&ndash;", "-"))}"
+          result += " - #{sitename}" unless sitename.blank?
+          return result
         else
           return "#{default || sitename}"
         end
