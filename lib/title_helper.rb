@@ -27,14 +27,14 @@ module DefV
         if @title
           result = "#{strip_tags(@title.gsub("&ndash;", "-"))}"
           result += " - #{sitename}" unless sitename.blank?
-          return result
+          return result.html_safe
         else
-          return "#{default || sitename}"
+          return "#{default || sitename}".html_safe
         end
       end
     end
 
-    def meta_descr arguments, options = {}
+    def meta_descr(arguments={})
       case arguments
       when String
         @meta_descr = arguments
@@ -46,28 +46,34 @@ module DefV
         else
           descr = default
         end
-        return %Q{<meta name="description" content="#{descr}" />} if descr
+        return %Q{<meta name="description" content="#{descr}" />}.html_safe if descr
       end
     end
 
-    def meta_keywords arguments
+    def meta_keywords(arguments={})
       case arguments
       when String
         @meta_keywords ||= []
         @meta_keywords += arguments.split(",").map { |part| part.strip }
         return nil
+      when false
+        @meta_keywords = []
       when Hash
         default_keywords = []
         unless arguments[:default].blank?
           default_keywords = arguments[:default].split(",").map { |part| part.strip }
         end
         
-        if @meta_keywords && @meta_keywords.size > 0
-          keywords = @meta_keywords# + default_keywords
+        if @meta_keywords 
+          if @meta_keywords.empty?
+            return ""
+          else
+            keywords = @meta_keywords# + default_keywords
+          end
         else
           keywords = default_keywords
         end
-        return %Q{<meta name="keywords" content="#{keywords.uniq.join(",")}" />} if keywords.size > 0
+        return %Q{<meta name="keywords" content="#{keywords.uniq.join(",")}" />}.html_safe if keywords.size > 0
       end
     end
   end
