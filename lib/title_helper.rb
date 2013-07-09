@@ -19,7 +19,7 @@ module DefV
         @title = arguments
         options[:class] = [options[:class], 'error'].compact.join(' ') if options[:error]
         unless options[:header] == false
-          return content_tag(:h1, [options[:header], @title, options[:trailer]].compact.join(' '), options.except(:error, :header, :trailer))
+          return content_tag(:h1, [options[:header], @title, options[:trailer]].compact.join(' ').html_safe, options.except(:error, :header, :trailer))
         end
       when Hash
         sitename = arguments[:site_name]
