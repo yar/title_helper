@@ -78,3 +78,5 @@ module DefV
     end
   end
 end
+
+ActionView::Base.send(:include, DefV::TitleHelper)
